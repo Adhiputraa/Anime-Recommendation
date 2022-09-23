@@ -78,3 +78,43 @@ Dataset terdiri dari 2 file.
 ## Data Preparation
 
 Teknik yang penulis gunakan dalam tahap Data Preparation adalah sebagai berikut:
+
+1. Handling missing value
+
+Pada tahapan ini penulis melakukan membersihkan dataset dengan berbagai metode :
+- Dropna
+Pada tahap ini pada kolom tertentu yang memiliki data kosong(null/NaN) akan drop dengan axis = 0 yang berarti satu baris akan di drop.
+
+- Fillna
+Pada tahap ini pada kolom tertentu yang memiliki data kosong(null/NaN) akan di-isi dengan nilai tertentu.
+
+2. Merging Dataset
+
+Pada tahap ini penulis melakukan penggabungan dataset. Dataset anime.csv dan rating.csv digabungkan berdasarkan nilai 'anime_id' yang sama pada kedua dataset
+
+3. Split Dataset into Data Train and Data Validation
+
+Pada tahap ini, penulis melakukan pembagian dataset menjadi data latih dan data validasi secara manual. Pembagian dataset ini bertujuan agar nantinya dapat digunakan untuk melatih dan mengevaluasi kinerja model. Pada proyek ini, 80% dataset digunakan untuk melatih model, dan 20% sisanya digunakan untuk mengevaluasi kinerja model.
+
+4. Standardization
+
+Pada tahap ini, penulis melakukan standardisasi menggunakan metode MinMaxScaler secara manual. Standardisasi ini sangat berguna dalam menyeratakan skala pada data terutama data numerical. Standardisasi ini digunakan dalam mempersiapkan data untuk mengembangkan model dengan Collaborative Filtering.
+
+`Min Max Scaler`
+
+`y = (x — min) / (max-min)`
+
+`y = df['rating'].apply(lambda x: (x - min_rating) / (max_rating - min_rating)).values`
+
+## Modeling and Result
+### Model Development dengan Content Based Filtering
+### Model Development dengan  Filtering
+
+## Evaluation
+
+
+### Conclusion
+
+
+## Reference
+
