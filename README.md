@@ -92,7 +92,7 @@ Pada tahap ini pada kolom tertentu yang memiliki data kosong(null/NaN) akan di-i
 
 Pada tahap ini penulis melakukan penggabungan dataset. Dataset anime.csv dan rating.csv digabungkan berdasarkan nilai 'anime_id' yang sama pada kedua dataset
 
-3.TF-IDF for Feature extraction
+3. TF-IDF for Feature extraction
 
 Pada tahapan ini TF-IDF digunakan untuk feature (text) extraction yaitu mengubah value pada kolom tertentu menjadi sebuah vektor yang akan digunakan dalam proses perhitungan cossine_similarity
 
