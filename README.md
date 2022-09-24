@@ -1,6 +1,8 @@
 # **System Recommendation : Anime Recommendation System Using Collaborative Filtering**
 Anime Recommendation using My Anime List Database
 
+By : Aditya Yoga Adhiputra
+
 ## Domain Proyek
 
 Domain proyek yang dijelaskan pada proyek machine learning kali ini yaitu tentang sistem rekomendasi dengan judul "Anime Recommendation System Using Collaborative Filtering". Sistem Rekomendasi Anime yang digunakan untuk merekomendasikan penonton dalam memilih anime berdasarkan minat mereka.
@@ -55,25 +57,25 @@ Metode *Collaborative Filtering* memiliki kemampuan untuk memanfaatkan peringkat
 
 ![anime'](https://user-images.githubusercontent.com/55022521/191887001-1a4e2b58-eda6-4015-9748-910101bd264b.jpg)
 
-Data yang digunakan untuk proyek ini diambil dari sini : [Anime Recommendations Database](https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database?select=rating.csv).
+Dataset yang penulis gunakan dalam proyek ini, yaitu Dataset dengan judul Anime Recommendations Database yang diambil pada laman Kaggle [Anime Recommendations Database](https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database?select=rating.csv). Dataset tersebut berisikan 2 file csv, yaitu file *Anime* dan *Rating*. File Anime.csv yang terdiri dari 7 kolom dan 12294 baris, Sedangkan file Rating.csv terdiri dari 3 kolom dan 7813737 baris. 
 
-Dataset terdiri dari 2 file.
+Berikut merupakan informasi lebih detail dari masing masing kolom dataset:
 
 *   **Anime.csv**
-1.   `anime_id`: myanimelist.net's unique id identifying an anime.
-2.   `name`: full name of anime
-3.   `genre`: comma separated list of genres for this anime.
-4.   `type`: movie, TV, OVA, etc.
-5.   `episodes`: how many episodes in this show. (1 if movie).
-6.   `rating`: average rating out of 10 for this anime.
-7.   `members`: number of community members that are in this anime's
-"group"
+1.   `anime_id`: Id unik myanimelist.net mengidentifikasi anime.
+2.   `name`: nama lengkap anime
+3.   `genre`: daftar genre untuk anime ini.
+4.   `type`: film, TV, OVA, dll.
+5.   `episodes`: seberapa banyak episode dalam acara ini, 1 jika film.
+6.   `rating`: peringkat rata-rata dari 10 untuk anime ini.
+7.   `members`: jumlah anggota komunitas yang ada di anime ini
+"kelompok"
 
 *   **Rating.csv**
 
-1.    `user_id`: non identifiable randomly generated user id.
-2.   `anime_id`: the anime that this user has rated.
-3.   `rating`: rating out of 10 this user has assigned (-1 if the user watched it but didn't assign a rating
+1.    `user_id`: id pengguna yang dibuat secara acak yang tidak dapat diidentifikasi.
+2.   `anime_id`: anime yang telah dinilai pengguna ini.
+3.   `rating`: anime yang telah dinilai oleh pengguna ini.rating dari 10 pengguna ini telah ditetapkan (-1 jika pengguna menontonnya tetapi tidak menetapkan peringkat).
 
 ## Data Preparation
 
@@ -110,6 +112,22 @@ Pada tahap ini, penulis melakukan standardisasi menggunakan metode MinMaxScaler 
 
 ### Model Development dengan Content Based Filtering
 Pada proses model development dengan Content Based Filtering, model ini bekerja berdasarkan pencarian yang dilakukan oleh user. Dimana model tersebut akan membantu user dalam mencari secara spesifik anime yang memiliki alur cerita dan genre (content) yang mirip maupun hampir sama. Model ini bekerja dengan mencari kesamaan fitur dengan perhitungan cossine_similarity. Pada kasus ini kesamaan fitur genre menjadi perhitungan dalam merekomendasikan judul anime.
+
+Langkah Langkah dalam membangun model:
+1. Proses development nya diawali dengan extrasi fitur text menggunakan TfidfVectorizer dari library sklearn.feature_extraction.text.
+2. Lalu mengubah vektor tf-idf ke dalam bentuk matriks menggunakan fungsi `todense()`.
+3. Membuat dataframe untuk melihat matrix tf-idf dengan kolom diisi dengan genre dan baris diisi dengan title_name
+4. Menghitung cosine similarity pada matrix tf-idf menggunakan fungsi `cosine_similarity()`.
+5. Membuat dataframe dari variabel cosine_sim dengan baris dan kolom berupa title_name.
+6. Membuat fungsi `anime_recommendations` dengan parameter berdasarkan kemiripan dataframe.
+
+`def anime_recommendations(title, similarity_data=cosine_sim_df, items=data[['title_name', 'genre']], k=5)`
+
+     Parameter:
+     - `title`: tipe data string (str) judul anime (index kemiripan dataframe)
+     - `similarity_data` : tipe data pd.DataFrame (object) kesamaan dataframe, simetrik, dengan anime sebagai indeks dan kolom
+     - `items` : tipe data pd.DataFrame (object) mengandung kedua nama dan fitur lainnya yang digunakan untuk mendefinisikan kemiripan
+     - `k` : tipe data integer (int) Banyaknya jumlah rekomendasi yang diberikan
 
 Contoh seseorang yang telah menonton anime 'Kimi No Nawa.'. Ia suka dengan film anime tersebut. Lalu ia ingin mencari anime yang secara cerita dan alur mirip dengan 'Kimi No Nawa.'
 
@@ -150,6 +168,56 @@ Berikut merupakan kelebihan dan kekurangan pada model ini:
 
 Pada proses model development dengan Collaborative Filtering, model ini bekerja berdasarkan peringkat pengguna sebelumnya untuk memprediksi atau merekomendasikan konten baru. Dimana model tersebut akan membantu user, terutama user baru dalam menemukan anime terbaik berdasarkan rating dari user lainya. 
 
+Langkah Langkah dalam membangun model:
+1. Melakukan proses encoding angka ke user_id, anime_id.
+2. Mapping user_id ke dataframe user dan Mapping anime_id ke dataframe anime.
+3. Mendapatkan jumlah user dan jumlah anime.
+4. Mencari nilai minimum rating dan nilai maksimum rating.
+5. Mengacak dataset.
+6. Membuat variabel x untuk mencocokkan data user dan anime menjadi satu value dan variabel y untuk membuat rating dari hasil.
+7. Membagi menjadi 80% data train dan 20% data validasi.
+8. Memanggil class RecommenderNet() dari library tf.keras.Model, pada class ini berisi fungsi-fungsi yang digunakan untuk memproses data.
+```
+class RecommenderNet(tf.keras.Model):
+ 
+  # Insialisasi fungsi
+  def __init__(self, num_users, num_anime, embedding_size, **kwargs):
+    super(RecommenderNet, self).__init__(**kwargs)
+    self.num_users = num_users
+    self.num_resto = num_anime
+    self.embedding_size = embedding_size
+    self.user_embedding = layers.Embedding( # layer embedding user
+        num_users,
+        embedding_size,
+        embeddings_initializer = 'he_normal',
+        embeddings_regularizer = keras.regularizers.l2(1e-6)
+    )
+    self.user_bias = layers.Embedding(num_users, 1) # layer embedding user bias
+    self.resto_embedding = layers.Embedding( # layer embeddings resto
+        num_anime,
+        embedding_size,
+        embeddings_initializer = 'he_normal',
+        embeddings_regularizer = keras.regularizers.l2(1e-6)
+    )
+    self.resto_bias = layers.Embedding(num_anime, 1) # layer embedding resto bias
+ 
+  def call(self, inputs):
+    user_vector = self.user_embedding(inputs[:,0]) # memanggil layer embedding 1
+    user_bias = self.user_bias(inputs[:, 0]) # memanggil layer embedding 2
+    anime_vector = self.resto_embedding(inputs[:, 1]) # memanggil layer embedding 3
+    anime_bias = self.resto_bias(inputs[:, 1]) # memanggil layer embedding 4
+ 
+    dot_user_anime = tf.tensordot(user_vector, anime_vector, 2) 
+ 
+    x = dot_user_anime + user_bias + anime_bias
+    
+    return tf.nn.sigmoid(x) # activation sigmoid
+```
+
+9. Menginisiasi model RecommenderNet() yang memiliki parameter: num_users, num_anime, embedding_size=50.
+10. Mengcompile model dengan loss_func = BinaryCrossentropy() dan menggunakan metrics evaluasi = RootMeanSquaredError.
+11. Melakukan training data dan memvisualisasikan hasil dari metrics evaluasi = RootMeanSquaredError menggunakan matplotlib.
+12. Lalu melakukan prediksi.
 
 Contoh hasil dari sistem rekomendasi ini, pengguna baru disuguhkan list of anime yang mendapatkan penilaian tertinggi dari user lainya.
 
