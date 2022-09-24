@@ -79,28 +79,23 @@ Dataset terdiri dari 2 file.
 
 Teknik yang penulis gunakan dalam tahap Data Preparation adalah sebagai berikut:
 
-1. Handling missing value
+- Data Cleaning
 
-Pada tahapan ini penulis melakukan membersihkan dataset dengan berbagai metode :
-- Dropna
-Pada tahap ini pada kolom tertentu yang memiliki data kosong(null/NaN) akan drop dengan axis = 0 yang berarti satu baris akan di drop.
+Pada tahapan ini penulis melakukan membersihkan dataset, dataset harus dalam keadaan clean agar memudahkan pemrosesan data dan pemodelan. pembersihan dataset dilakukan dengan berbagai metode. Metode Dropna digunakan pada kolom tertentu yang memiliki data kosong(null/NaN) akan drop dengan axis = 0 yang berarti satu baris akan di drop. Metode fillna digunakan pada kolom tertentu yang memiliki data kosong(null/NaN) akan di-isi dengan nilai tertentu. 
 
-- Fillna
-Pada tahap ini pada kolom tertentu yang memiliki data kosong(null/NaN) akan di-isi dengan nilai tertentu.
-
-2. Merging Dataset
+- Merging Dataset
 
 Pada tahap ini penulis melakukan penggabungan dataset. Dataset anime.csv dan rating.csv digabungkan berdasarkan nilai 'anime_id' yang sama pada kedua dataset
 
-3. TF-IDF for Feature extraction
+- TfidfVectorizer for Feature extraction
 
-Pada tahapan ini TF-IDF digunakan untuk feature (text) extraction yaitu mengubah value pada kolom tertentu menjadi sebuah vektor yang akan digunakan dalam proses perhitungan cossine_similarity
+Pada tahapan ini TfidfVectorizer digunakan untukmengonversi kumpulan dokumen mentah menjadi matriks fitur TF-IDF. Pada kasus ini yaitu mengubah value pada kolom tertentu menjadi sebuah vektor yang akan digunakan dalam proses perhitungan cossine_similarity.
 
-4. Split Dataset into Data Train and Data Validation
+- Split Dataset into Data Train and Data Validation
 
 Pada tahap ini, penulis melakukan pembagian dataset menjadi data latih dan data validasi secara manual. Pembagian dataset ini bertujuan agar nantinya dapat digunakan untuk melatih dan mengevaluasi kinerja model. Pada proyek ini, 80% dataset digunakan untuk melatih model, dan 20% sisanya digunakan untuk mengevaluasi kinerja model.
 
-5. Standardization
+- Standardization
 
 Pada tahap ini, penulis melakukan standardisasi menggunakan metode MinMaxScaler secara manual. Standardisasi ini sangat berguna dalam menyeratakan skala pada data terutama data numerical. Standardisasi ini digunakan dalam mempersiapkan data untuk mengembangkan model dengan Collaborative Filtering.
 
@@ -118,11 +113,21 @@ Pada proses model development dengan Content Based Filtering, model ini bekerja 
 
 Contoh seseorang yang telah menonton anime 'Kimi No Nawa.'. Ia suka dengan film anime tersebut. Lalu ia ingin mencari anime yang secara cerita dan alur mirip dengan 'Kimi No Nawa.'
 
-![kimi](https://user-images.githubusercontent.com/55022521/192094678-fe5ad24b-678c-42f1-98d8-19936f4f5524.jpg)
+|   |   id  |   title_name   |
+|--:|:-----:|:--------------:|
+| 0 | 32281 | Kimi no Na wa. |
+
 
 Maka sistem ini akan merekomendasikan anime-anime yang memiliki kesamaan fitur dengan anime 'Kimi No Nawa.'
 
-![kimmiii](https://user-images.githubusercontent.com/55022521/192094682-7bedd570-437a-4cf3-991f-6fad4edc60d3.jpg)
+|   |               title_name              |                     genre                    |
+|--:|:-------------------------------------:|:--------------------------------------------:|
+| 0 |          Wind: A Breath of Heart (TV) |         Drama, Romance, School, Supernatural |
+| 1 |           Wind: A Breath of Heart OVA |         Drama, Romance, School, Supernatural |
+| 2 | Aura: Maryuuin Kouga Saigo no Tatakai | Comedy, Drama, Romance, School, Supernatural |
+| 3 |                              Harmonie |                  Drama, School, Supernatural |
+| 4 |        Angel Beats!: Another Epilogue |                  Drama, School, Supernatural |
+
 
 Berikut merupakan kelebihan dan kekurangan pada model ini:
 
@@ -145,11 +150,35 @@ Pada proses model development dengan Collaborative Filtering, model ini bekerja 
 
 Contoh hasil dari sistem rekomendasi ini, pengguna baru disuguhkan list of anime yang mendapatkan penilaian tertinggi dari user lainya.
 
-![best anime](https://user-images.githubusercontent.com/55022521/192094766-3a55e57f-5b58-442b-8251-eecc13006847.jpg)
+| Showing best anime recommendations for users: 1223                                                  |
+|-----------------------------------------------------------------------------------------------------|
+| ===========================                                                                         |
+| Anime with high ratings from user                                                                   |
+| --------------------------------                                                                    |
+| To Heart 2 Adnext : Comedy, Harem, Romance                                                          |
+| Kizuna Ichigeki : Comedy, Martial Arts                                                              |
+| To Heart 2 Special : Drama, Romance, School                                                         |
+| To Heart 2: Dungeon Travelers : Adventure, Comedy, Ecchi, Fantasy, Magic, Seinen                    |
+| Tsuki wa Higashi ni Hi wa Nishi ni: Operation Sanctuary OVA : Comedy, Drama, Harem, Romance, Sci-Fi |
+
 
 Sistem juga menampilkan beberapa anime terbaik yang direkomendasikan untuk user berdasarkan pilihan user lainya
 
-![top10](https://user-images.githubusercontent.com/55022521/192094769-f5b639fe-7943-4fec-a407-b36cc68c3083.jpg)
+| Top 10 Anime recommendation                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------------|
+| --------------------------------------------------------------------------------------------------------------------- |
+| Kimi no Na wa. : Drama, Romance, School, Supernatural                                                                 |
+| Gintama° : Action, Comedy, Historical, Parody, Samurai, Sci-Fi, Shounen                                               |
+| Steins;Gate : Sci-Fi, Thriller                                                                                        |
+| Hunter x Hunter (2011) : Action, Adventure, Shounen, Super Power                                                      |
+| Ginga Eiyuu Densetsu : Drama, Military, Sci-Fi, Space                                                                 |
+| Gintama Movie: Kanketsu-hen - Yorozuya yo Eien Nare : Action, Comedy, Historical, Parody, Samurai, Sci-Fi, Shounen    |
+| Clannad: After Story : Drama, Fantasy, Romance, Slice of Life, Supernatural                                           |
+| Gintama : Action, Comedy, Historical, Parody, Samurai, Sci-Fi, Shounen                                                |
+| Haikyuu!! Second Season : Comedy, Drama, School, Shounen, Sports                                                      |
+| Suzumiya Haruhi no Shoushitsu : Comedy, Mystery, Romance, School, Sci-Fi, Supernatural                                |
+|                                                                                                                       |
+
 
 Berikut merupakan kelebihan dan kekurangan pada model ini:
 
@@ -184,7 +213,18 @@ Keuntungan Cosine similarity :
 
 Matrix Cosine Similarity
 
-![cosss](https://user-images.githubusercontent.com/55022521/192096634-72639ee9-b198-45cc-8334-b1475b469441.jpg)
+| **title_name**                 | Soredemo Tsuma wo Aishiteru | Emi to Yobanaide | Hyakujuu-Ou GoLion | Yoshinaga-sanchi no Gargoyle | Attacker You! |
+|--------------------------------|-----------------------------|------------------|--------------------|------------------------------|---------------|
+| Strike Witches 2               | 0.0                         | 0.0              | 0.275165           | 0.000000                     | 0.102196      |
+| Shikabane Hime: Aka            | 0.0                         | 0.0              | 0.000000           | 0.000000                     | 0.098475      |
+| Tayutayu: Pure My Heart        | 0.0                         | 0.0              | 0.000000           | 0.295969                     | 0.000000      |
+| Bikini Warriors Special        | 0.0                         | 0.0              | 0.000000           | 0.178267                     | 0.000000      |
+| Pokemon: Pikachu no Fuyuyasumi | 0.0                         | 0.0              | 0.194750           | 0.301418                     | 0.000000      |
+| Idol Project                   | 0.0                         | 0.0              | 0.219851           | 0.119199                     | 0.000000      |
+| Ninja and Soldier              | 0.0                         | 0.0              | 0.000000           | 0.000000                     | 0.000000      |
+| Redline Pilot                  | 0.0                         | 0.0              | 0.000000           | 0.000000                     | 0.338728      |
+| Seijuuki Cyguard               | 0.0                         | 0.0              | 0.666296           | 0.000000                     | 0.000000      |
+| Prima Donna Mai                | 1.0                         | 1.0              | 0.000000           | 0.000000                     | 0.000000      |
 
 Pada perhitungan Cosine Similarity, skor kesamaan berkisar dari 0 hingga 1, dengan 0 sebagai yang terendah (paling tidak mirip) dan 1 sebagai yang tertinggi (paling mirip).
 
@@ -210,27 +250,27 @@ Sistem Rekomendasi ini dibangun untuk memudahkan user dalam mencari anime sesuai
 
 ## Reference
 
-[[1]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
-Schafer, J.B., F. Dan, H. Jon and S. Shilad, 2007b.
+[1] Ito, M., Okabe, D., & Tsuji, I. (2005). Fandom Unbound. London: Yale University Press.
 
 [[2]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
+Schafer, J.B., F. Dan, H. Jon and S. Shilad, 2007b.
+
+[[3]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
 Collaborative Filtering Recommender Systems. In:Brusilovsky, P., K. Alfred and N. Wolfgang(Eds.), The Adaptive Web of Lecture Notes inComputer Science. Springer-Verlag, Berlin,Germany, 4321: 291-324.
 
-[[3]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
+[[4]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
 Ziegler, C., 2004. Semantic web recommender systems.Proceedings of the EDBT Workshop, pp: 78-89.
 
-[[3]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
+[[5]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
 Ziegler, C.N., S.M. Mcnee, J.A. Konstan and L. Georg,2005. Improving recommendation lists throughtopic diversification. Proceeding of the 14thInternational World Wide Web Conference(WWW). ACM, Chiba, Japan, pp: 22-32.
 
-[[4]](https://www.worldscientific.com/doi/abs/10.1142/S0218213009000378)
+[[6]](https://www.worldscientific.com/doi/abs/10.1142/S0218213009000378)
 Sebastia, Let al. 2009. e-Tourism: A touristr recommendation and planning application. International Journal on Artificial Intelligence Tools18(5): 717-738
 
-[[5]](https://www.worldscientific.com/doi/abs/10.1142/S0218213009000378)
+[[7]](https://www.worldscientific.com/doi/abs/10.1142/S0218213009000378)
 Lutfi,E.T. & Kusrini. 2009. Algoritma Data Mining. Yogyakarta: CV AndiOffset
 
-[[6]](https://doaj.org/article/6816ea622b08499597070a9073e28b7c)
+[[8]](https://doaj.org/article/6816ea622b08499597070a9073e28b7c)
 Wijaya, A., & Alfian, D. 2018. Sistem Rekomendasi Laptop  Menggunakan  Collaborative  Filtering  dan Content-Based   Filtering.   Jurnal   Computech   dan Bisnis, 12(1),11-27
 
-[7] Ito, M., Okabe, D., & Tsuji, I. (2005). Fandom Unbound. London: Yale University Press.
-
-[8] Kurniawan S, Daniel, 2019. STUDI SEMIOTIKA KARAKTER MONOKUMA PADA ANIME FRANCHISE SERIES “DANGANRONPA”.
+[9] Kurniawan S, Daniel, 2019. STUDI SEMIOTIKA KARAKTER MONOKUMA PADA ANIME FRANCHISE SERIES “DANGANRONPA”.
