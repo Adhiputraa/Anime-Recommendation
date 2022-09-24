@@ -118,6 +118,7 @@ Contoh seseorang yang telah menonton anime 'Kimi No Nawa.'. Ia suka dengan film 
 | 0 | 32281 | Kimi no Na wa. |
 
 
+
 Maka sistem ini akan merekomendasikan anime-anime yang memiliki kesamaan fitur dengan anime 'Kimi No Nawa.'
 
 |   |               title_name              |                     genre                    |
@@ -127,6 +128,7 @@ Maka sistem ini akan merekomendasikan anime-anime yang memiliki kesamaan fitur d
 | 2 | Aura: Maryuuin Kouga Saigo no Tatakai | Comedy, Drama, Romance, School, Supernatural |
 | 3 |                              Harmonie |                  Drama, School, Supernatural |
 | 4 |        Angel Beats!: Another Epilogue |                  Drama, School, Supernatural |
+
 
 
 Berikut merupakan kelebihan dan kekurangan pada model ini:
@@ -148,6 +150,7 @@ Berikut merupakan kelebihan dan kekurangan pada model ini:
 
 Pada proses model development dengan Collaborative Filtering, model ini bekerja berdasarkan peringkat pengguna sebelumnya untuk memprediksi atau merekomendasikan konten baru. Dimana model tersebut akan membantu user, terutama user baru dalam menemukan anime terbaik berdasarkan rating dari user lainya. 
 
+
 Contoh hasil dari sistem rekomendasi ini, pengguna baru disuguhkan list of anime yang mendapatkan penilaian tertinggi dari user lainya.
 
 | Showing best anime recommendations for users: 1223                                                  |
@@ -160,6 +163,7 @@ Contoh hasil dari sistem rekomendasi ini, pengguna baru disuguhkan list of anime
 | To Heart 2 Special : Drama, Romance, School                                                         |
 | To Heart 2: Dungeon Travelers : Adventure, Comedy, Ecchi, Fantasy, Magic, Seinen                    |
 | Tsuki wa Higashi ni Hi wa Nishi ni: Operation Sanctuary OVA : Comedy, Drama, Harem, Romance, Sci-Fi |
+
 
 
 Sistem juga menampilkan beberapa anime terbaik yang direkomendasikan untuk user berdasarkan pilihan user lainya
@@ -178,6 +182,7 @@ Sistem juga menampilkan beberapa anime terbaik yang direkomendasikan untuk user 
 | Haikyuu!! Second Season : Comedy, Drama, School, Shounen, Sports                                                      |
 | Suzumiya Haruhi no Shoushitsu : Comedy, Mystery, Romance, School, Sci-Fi, Supernatural                                |
 |                                                                                                                       |
+
 
 
 Berikut merupakan kelebihan dan kekurangan pada model ini:
@@ -228,7 +233,9 @@ Matrix Cosine Similarity
 
 Pada perhitungan Cosine Similarity, skor kesamaan berkisar dari 0 hingga 1, dengan 0 sebagai yang terendah (paling tidak mirip) dan 1 sebagai yang tertinggi (paling mirip).
 
+
 Contohnya anime dengan judul **'Prima Donna Mai'** memiliki nilai 1.0 dengan anime yang berjudul **'Soredemo Tsuma wo Aishiteru'** dan **'Emi to Yobanaide'**. Dengan nilai tersebut maka dikatakan bahwa anime tersebut memiliki kemiripan yang sangat kuat. Jika < 1 atau mendekati 0 maka anime tersebut berkurang kemiripan nya atau mungkin saja tidak mirip.
+
 
 
 **Root Mean Squared Error**
