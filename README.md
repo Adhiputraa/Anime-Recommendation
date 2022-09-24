@@ -92,11 +92,15 @@ Pada tahap ini pada kolom tertentu yang memiliki data kosong(null/NaN) akan di-i
 
 Pada tahap ini penulis melakukan penggabungan dataset. Dataset anime.csv dan rating.csv digabungkan berdasarkan nilai 'anime_id' yang sama pada kedua dataset
 
-3. Split Dataset into Data Train and Data Validation
+3.TF-IDF for Feature extraction
+
+Pada tahapan ini TF-IDF digunakan untuk feature (text) extraction yaitu mengubah value pada kolom tertentu menjadi sebuah vektor yang akan digunakan dalam proses perhitungan cossine_similarity
+
+4. Split Dataset into Data Train and Data Validation
 
 Pada tahap ini, penulis melakukan pembagian dataset menjadi data latih dan data validasi secara manual. Pembagian dataset ini bertujuan agar nantinya dapat digunakan untuk melatih dan mengevaluasi kinerja model. Pada proyek ini, 80% dataset digunakan untuk melatih model, dan 20% sisanya digunakan untuk mengevaluasi kinerja model.
 
-4. Standardization
+5. Standardization
 
 Pada tahap ini, penulis melakukan standardisasi menggunakan metode MinMaxScaler secara manual. Standardisasi ini sangat berguna dalam menyeratakan skala pada data terutama data numerical. Standardisasi ini digunakan dalam mempersiapkan data untuk mengembangkan model dengan Collaborative Filtering.
 
@@ -106,15 +110,106 @@ Pada tahap ini, penulis melakukan standardisasi menggunakan metode MinMaxScaler 
 
 `y = df['rating'].apply(lambda x: (x - min_rating) / (max_rating - min_rating)).values`
 
+
 ## Modeling and Result
+
 ### Model Development dengan Content Based Filtering
-### Model Development dengan  Filtering
+
+![kimi](https://user-images.githubusercontent.com/55022521/192094678-fe5ad24b-678c-42f1-98d8-19936f4f5524.jpg)
+
+![kimmiii](https://user-images.githubusercontent.com/55022521/192094682-7bedd570-437a-4cf3-991f-6fad4edc60d3.jpg)
+
+**Advantages**
+
+- Pengguna akan direkomendasikan jenis barang yang mereka sukai.
+- Pengguna puas dengan jenis rekomendasi.
+- Item baru dapat direkomendasikan, hanya data untuk item itu yang diperlukan.
+- Model ini dapat menangkap minat spesifik pengguna, dan dapat merekomendasikan item bagus yang sangat sedikit pengguna lain yang tertarik
+
+**Disadvantages**
+
+- Pengguna tidak akan pernah direkomendasikan untuk item yang berbeda.
+- Dalam hal pengembangan bisnis tidak dapat diperluas karena pengguna tidak mencoba jenis produk yang berbeda.
+- Jika matriks pengguna atau matriks item diubah, matriks kesamaan kosinus perlu dihitung lagi
+
+### Model Development dengan Collaborative Filtering
+
+![best anime](https://user-images.githubusercontent.com/55022521/192094766-3a55e57f-5b58-442b-8251-eecc13006847.jpg)
+
+![top10](https://user-images.githubusercontent.com/55022521/192094769-f5b639fe-7943-4fec-a407-b36cc68c3083.jpg)
+
+**Advantages**
+- Produk baru berupa anime yang baru rilis dapat diperkenalkan kepada pengguna.
+- Dalam hal bisnis dapat diperluas dan dapat mempopulerkan produk anime terbaru.
+- Model ini dapat membantu pengguna menemukan minat baru
+
+**Disadvantages**
+- Riwayat pengguna sebelumnya diperlukan atau data untuk produk diperlukan berdasarkan jenis metode kolaboratif yang digunakan.
+- Item baru tidak dapat direkomendasikan jika tidak ada pengguna yang membeli atau menilainya.
+
 
 ## Evaluation
+**Cosine similarity**
 
+Cosine similarity adalah metriks yang membantu dalam menentukan seberapa mirip objek data terlepas dari ukurannya. Dalam Cosine similarity, objek data dalam kumpulan data diperlakukan sebagai vektor. Rumus untuk mencari persamaan cosinus antara dua vektor adalah:
+
+![cossine](https://user-images.githubusercontent.com/55022521/192092471-8c4b2f08-fddd-4bd9-8398-f584657e91be.jpg)
+
+`Cos(x, y) = x . y / ||x|| * ||y||`
+
+Keterangan :
+- `x . y = product (dot) of the vectors ‘x’ and ‘y’.`
+- `||x|| and ||y|| = length of the two vectors ‘x’ and ‘y’.`
+- `||x|| * ||y|| = cross product of the two vectors ‘x’ and ‘y’.`
+
+Keuntungan Cosine similarity :
+
+- Kesamaan kosinus bermanfaat karena bahkan jika dua objek data serupa terpisah jauh oleh jarak Euclidean karena ukurannya, mereka masih dapat memiliki sudut yang lebih kecil di antara mereka. Semakin kecil sudutnya, semakin tinggi kesamaannya.
+- Ketika diplot pada ruang multidimensi, kesamaan kosinus menangkap orientasi (sudut) dari objek data dan bukan besarnya.
+
+
+
+
+**Root Mean Squared Error**
+
+Root Mean Squared Error (RMSE) adalah salah satu metrik evaluasi paling populer untuk masalah regresi. RMSE dihitung dengan mengambil akar kuadrat dari MSE:
+
+![rmse](https://user-images.githubusercontent.com/55022521/192090047-110a1997-53b6-4e98-a42f-da844ec38e65.png)
+
+Nilai yang dihasilkan dapat diinterpretasikan dalam unit yang sama dengan nilai prediksi. Root Mean Squared Error (RMSE) lebih mudah dipahami daripada beberapa metrik lainnya. Namun nilai RMSE hanya dapat dibandingkan antara model yang mengukur kesalahan menggunakan unit yang sama. Nilai RMSE yang lebih rendah menunjukkan performa model yang lebih baik. RMSE harus digunakan di atas MAE atau metrik evaluasi lainnya dalam situasi di mana data yang diamati memiliki distribusi kondisional asimetris.
+
+Berikut merupakan hasil dari Root Mean Squared Error dari model Model Development dengan Collaborative Filtering.
+Pada gambar dibawah terlihat bahwa pada nilai RMSE pada data test yaitu 0.16 lebih tinggi dibandingkan dengan RMSE pada data_train.
+
+![hasil](https://user-images.githubusercontent.com/55022521/192092028-6bc1d932-5fea-4d13-affd-113d6f826979.png)
 
 ### Conclusion
 
+Sistem Rekomendasi ini dibangun untuk memudahkan user dalam mencari anime sesuai minat mereka. Jika tergolong user baru yang belum pernah menonton anime, maka sistem rekomendasi dengan *collaborative filtering* dapat membantu karena dapat merekomendasikan anime berdasarkan rating pengguna lainya. Jika user yang sering menonton anime maka sistem rekomendasi dengan *Content Based filtering* dapat membantu user dalam memilih anime berdasarkan genre film atau yang jalan cerita nya mirip dengan anime yang telah user tonton. 
 
 ## Reference
 
+[[1]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
+Schafer, J.B., F. Dan, H. Jon and S. Shilad, 2007b.
+
+[[2]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
+Collaborative Filtering Recommender Systems. In:Brusilovsky, P., K. Alfred and N. Wolfgang(Eds.), The Adaptive Web of Lecture Notes inComputer Science. Springer-Verlag, Berlin,Germany, 4321: 291-324.
+
+[[3]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
+Ziegler, C., 2004. Semantic web recommender systems.Proceedings of the EDBT Workshop, pp: 78-89.
+
+[[3]](https://www.researchgate.net/publication/287952023_Collaborative_Filtering_Recommender_Systems)
+Ziegler, C.N., S.M. Mcnee, J.A. Konstan and L. Georg,2005. Improving recommendation lists throughtopic diversification. Proceeding of the 14thInternational World Wide Web Conference(WWW). ACM, Chiba, Japan, pp: 22-32.
+
+[[4]](https://www.worldscientific.com/doi/abs/10.1142/S0218213009000378)
+Sebastia, Let al. 2009. e-Tourism: A touristr recommendation and planning application. International Journal on Artificial Intelligence Tools18(5): 717-738
+
+[[5]](https://www.worldscientific.com/doi/abs/10.1142/S0218213009000378)
+Lutfi,E.T. & Kusrini. 2009. Algoritma Data Mining. Yogyakarta: CV AndiOffset
+
+[[6]](https://doaj.org/article/6816ea622b08499597070a9073e28b7c)
+Wijaya, A., & Alfian, D. 2018. Sistem Rekomendasi Laptop  Menggunakan  Collaborative  Filtering  dan Content-Based   Filtering.   Jurnal   Computech   dan Bisnis, 12(1),11-27
+
+[7] Ito, M., Okabe, D., & Tsuji, I. (2005). Fandom Unbound. London: Yale University Press.
+
+[8] Kurniawan S, Daniel, 2019. STUDI SEMIOTIKA KARAKTER MONOKUMA PADA ANIME FRANCHISE SERIES “DANGANRONPA”.
