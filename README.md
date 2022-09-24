@@ -114,10 +114,17 @@ Pada tahap ini, penulis melakukan standardisasi menggunakan metode MinMaxScaler 
 ## Modeling and Result
 
 ### Model Development dengan Content Based Filtering
+Pada proses model development dengan Content Based Filtering, model ini bekerja berdasarkan pencarian yang dilakukan oleh user. Dimana model tersebut akan membantu user dalam mencari secara spesifik anime yang memiliki alur cerita dan genre (content) yang mirip maupun hampir sama. Model ini bekerja dengan mencari kesamaan fitur dengan perhitungan cossine_similarity. Pada kasus ini kesamaan fitur genre menjadi perhitungan dalam merekomendasikan judul anime.
+
+Contoh seseorang yang telah menonton anime 'Kimi No Nawa.'. Ia suka dengan film anime tersebut. Lalu ia ingin mencari anime yang secara cerita dan alur mirip dengan 'Kimi No Nawa.'
 
 ![kimi](https://user-images.githubusercontent.com/55022521/192094678-fe5ad24b-678c-42f1-98d8-19936f4f5524.jpg)
 
+Maka sistem ini akan merekomendasikan anime-anime yang memiliki kesamaan fitur dengan anime 'Kimi No Nawa.'
+
 ![kimmiii](https://user-images.githubusercontent.com/55022521/192094682-7bedd570-437a-4cf3-991f-6fad4edc60d3.jpg)
+
+Berikut merupakan kelebihan dan kekurangan pada model ini:
 
 **Advantages**
 
@@ -134,9 +141,17 @@ Pada tahap ini, penulis melakukan standardisasi menggunakan metode MinMaxScaler 
 
 ### Model Development dengan Collaborative Filtering
 
+Pada proses model development dengan Collaborative Filtering, model ini bekerja berdasarkan peringkat pengguna sebelumnya untuk memprediksi atau merekomendasikan konten baru. Dimana model tersebut akan membantu user, terutama user baru dalam menemukan anime terbaik berdasarkan rating dari user lainya. 
+
+Contoh hasil dari sistem rekomendasi ini, pengguna baru disuguhkan list of anime yang mendapatkan penilaian tertinggi dari user lainya.
+
 ![best anime](https://user-images.githubusercontent.com/55022521/192094766-3a55e57f-5b58-442b-8251-eecc13006847.jpg)
 
+Sistem juga menampilkan beberapa anime terbaik yang direkomendasikan untuk user berdasarkan pilihan user lainya
+
 ![top10](https://user-images.githubusercontent.com/55022521/192094769-f5b639fe-7943-4fec-a407-b36cc68c3083.jpg)
+
+Berikut merupakan kelebihan dan kekurangan pada model ini:
 
 **Advantages**
 - Produk baru berupa anime yang baru rilis dapat diperkenalkan kepada pengguna.
@@ -167,7 +182,13 @@ Keuntungan Cosine similarity :
 - Kesamaan kosinus bermanfaat karena bahkan jika dua objek data serupa terpisah jauh oleh jarak Euclidean karena ukurannya, mereka masih dapat memiliki sudut yang lebih kecil di antara mereka. Semakin kecil sudutnya, semakin tinggi kesamaannya.
 - Ketika diplot pada ruang multidimensi, kesamaan kosinus menangkap orientasi (sudut) dari objek data dan bukan besarnya.
 
+Matrix Cosine Similarity
 
+![cosss](https://user-images.githubusercontent.com/55022521/192096634-72639ee9-b198-45cc-8334-b1475b469441.jpg)
+
+Pada perhitungan Cosine Similarity, skor kesamaan berkisar dari 0 hingga 1, dengan 0 sebagai yang terendah (paling tidak mirip) dan 1 sebagai yang tertinggi (paling mirip).
+
+Contohnya anime dengan judul **'Prima Donna Mai'** memiliki nilai 1.0 dengan anime yang berjudul **'Soredemo Tsuma wo Aishiteru'** dan **'Emi to Yobanaide'**. Dengan nilai tersebut maka dikatakan bahwa anime tersebut memiliki kemiripan yang sangat kuat. Jika < 1 atau mendekati 0 maka anime tersebut berkurang kemiripan nya atau mungkin saja tidak mirip.
 
 
 **Root Mean Squared Error**
