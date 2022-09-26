@@ -131,6 +131,8 @@ Langkah Langkah dalam membangun model:
 
 Contoh seseorang yang telah menonton anime 'Kimi No Nawa.'. Ia suka dengan film anime tersebut. Lalu ia ingin mencari anime yang secara cerita dan alur mirip dengan 'Kimi No Nawa.'
 
+![kimi no nawa](https://user-images.githubusercontent.com/55022521/192219022-02b98ed7-805a-45a1-a64b-82dc42075cb9.jpg)
+
 |   |   id  |   title_name   |
 |--:|:-----:|:--------------:|
 | 0 | 32281 | Kimi no Na wa. |
@@ -208,6 +210,7 @@ Contoh hasil dari sistem rekomendasi ini, pengguna baru disuguhkan list of anime
 
 
 Sistem juga menampilkan beberapa anime terbaik yang direkomendasikan untuk user berdasarkan pilihan user lainya
+
 
 | Top 10 Anime recommendation                                                                                           |
 |-----------------------------------------------------------------------------------------------------------------------|
