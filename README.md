@@ -169,55 +169,28 @@ Berikut merupakan kelebihan dan kekurangan pada model ini:
 Pada proses model development dengan Collaborative Filtering, model ini bekerja berdasarkan peringkat pengguna sebelumnya untuk memprediksi atau merekomendasikan konten baru. Dimana model tersebut akan membantu user, terutama user baru dalam menemukan anime terbaik berdasarkan rating dari user lainya. 
 
 Langkah Langkah dalam membangun model:
-1. Melakukan proses encoding angka ke user_id, anime_id.
-2. Mapping user_id ke dataframe user dan Mapping anime_id ke dataframe anime.
+1. Melakukan proses encoding angka ke user_id, anime_id ke dalam indeks integer.
+2. Mapping user_id ke dataframe user dan Mapping anime_id ke dataframe anime melalui embedding matrix.
 3. Mendapatkan jumlah user dan jumlah anime.
 4. Mencari nilai minimum rating dan nilai maksimum rating.
 5. Mengacak dataset.
 6. Membuat variabel x untuk mencocokkan data user dan anime menjadi satu value dan variabel y untuk membuat rating dari hasil.
 7. Membagi menjadi 80% data train dan 20% data validasi.
-8. Memanggil class RecommenderNet() dari library tf.keras.Model, pada class ini berisi fungsi-fungsi yang digunakan untuk memproses data.
-```
-class RecommenderNet(tf.keras.Model):
- 
-  # Insialisasi fungsi
-  def __init__(self, num_users, num_anime, embedding_size, **kwargs):
-    super(RecommenderNet, self).__init__(**kwargs)
-    self.num_users = num_users
-    self.num_resto = num_anime
-    self.embedding_size = embedding_size
-    self.user_embedding = layers.Embedding( # layer embedding user
-        num_users,
-        embedding_size,
-        embeddings_initializer = 'he_normal',
-        embeddings_regularizer = keras.regularizers.l2(1e-6)
-    )
-    self.user_bias = layers.Embedding(num_users, 1) # layer embedding user bias
-    self.resto_embedding = layers.Embedding( # layer embeddings resto
-        num_anime,
-        embedding_size,
-        embeddings_initializer = 'he_normal',
-        embeddings_regularizer = keras.regularizers.l2(1e-6)
-    )
-    self.resto_bias = layers.Embedding(num_anime, 1) # layer embedding resto bias
- 
-  def call(self, inputs):
-    user_vector = self.user_embedding(inputs[:,0]) # memanggil layer embedding 1
-    user_bias = self.user_bias(inputs[:, 0]) # memanggil layer embedding 2
-    anime_vector = self.resto_embedding(inputs[:, 1]) # memanggil layer embedding 3
-    anime_bias = self.resto_bias(inputs[:, 1]) # memanggil layer embedding 4
- 
-    dot_user_anime = tf.tensordot(user_vector, anime_vector, 2) 
- 
-    x = dot_user_anime + user_bias + anime_bias
-    
-    return tf.nn.sigmoid(x) # activation sigmoid
-```
-
+8. Memanggil class RecommenderNet() dari library tf.keras
 9. Menginisiasi model RecommenderNet() yang memiliki parameter: num_users, num_anime, embedding_size=50.
-10. Mengcompile model dengan loss_func = BinaryCrossentropy() dan menggunakan metrics evaluasi = RootMeanSquaredError.
-11. Melakukan training data dan memvisualisasikan hasil dari metrics evaluasi = RootMeanSquaredError menggunakan matplotlib.
-12. Lalu melakukan prediksi.
+
+     Parameter:
+     - `num_users`: jumlah id user anime
+     - `num_anime` : jumlah judul anime
+     - `embedding_size` : Melakukan embbeding(penyematan) pada user_id dan anime_id ke dalam vektor 50 dimensi. 
+     
+10. Setelah itu model bekerja dengan menghitung skor kecocokan antara user_embbeding dan anime_embbeding melalui operasi perkalian dot product.
+11. Lalu menambahkan bias per user dan bias per anime.
+12. Proses pencocokan skor(score matching) diskalakan ke interval [0, 1] melalui sigmoid function.
+13. Melakukan inisialsisasi model. dengan parameter num_user, num_anime dan embbeding berdimensi 50.
+14. Mengcompile model. Pada proses compile, model ini menggunakan Binary Crossentropy untuk menghitung loss function, Adam (Adaptive Moment Estimation) sebagai optimizer, dan root mean squared error (RMSE) sebagai metrics evaluation.
+15. Melakukan proses training-validate data dan memvisualisasikan hasil dari metrics evaluasi root mean squared error (RMSE) menggunakan library matplotlib.
+16. Lalu melakukan prediksi.
 
 Contoh hasil dari sistem rekomendasi ini, pengguna baru disuguhkan list of anime yang mendapatkan penilaian tertinggi dari user lainya.
 
